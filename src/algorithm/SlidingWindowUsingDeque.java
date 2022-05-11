@@ -38,7 +38,7 @@ public class SlidingWindowUsingDeque {
     for (; i < k; i++) {
       //System.out.println("Queue before " + deque);
       //System.out.println("arr[i] " + arr[i]);
-      if (!deque.isEmpty()) System.out.println(deque.peekLast());
+      //if (!deque.isEmpty()) System.out.println(deque.peekLast());
       while (!deque.isEmpty() && arr[i] >= arr[deque.peekLast()]) {
         deque.removeLast();
       }
