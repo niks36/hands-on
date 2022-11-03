@@ -73,8 +73,6 @@ public class AlienDictionary {
           }
         }
       }
-
-
     }
 
     return result.toString();

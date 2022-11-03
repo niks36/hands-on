@@ -75,6 +75,7 @@ public class MinWindowString {
 
     if ( s== null || t == null || s.equals(t) || s.isEmpty() || t.isEmpty()) return "";
 
+    String result = s;
     Map<Character, Integer> map = new HashMap<>();
     for(Character ch : t.toCharArray()){
       map.put(ch, map.getOrDefault(ch, 0) + 1);
@@ -101,8 +102,15 @@ public class MinWindowString {
         }
         i++;
       }
+      System.out.println(i + "-"+j);
+      String temp = s.substring(i-1,j);
+      if(result.length() > temp.length() ){
+        result = temp;
+      }
+
+
     }
 //https://www.callicoder.com/minimum-window-substring/
-    return "";
+    return result;
   }
 }

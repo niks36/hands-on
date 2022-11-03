@@ -22,23 +22,19 @@ public class BSTCompleteBinaryTree {
 
     @Override
     public String toString() {
-      return "BSTNode{" +
-          "value=" + value +
-          ", left=" + left +
-          ", right=" + right +
-          '}';
+      return "BSTNode{" + "value=" + value + ", left=" + left + ", right=" + right + '}';
     }
   }
 
   public static void main(String[] args) {
 
-    List<Integer> n1 = List.of(17,-1,-1);
-    List<Integer> n2 = List.of(15,13,17);
-    List<Integer> n3 = List.of(7,-1,-1);
-    List<Integer> n4 = List.of(13,-1,-1);
-    List<Integer> n5 = List.of(5,3,7);
-    List<Integer> n6 = List.of(3,-1,-1);
-    List<Integer> n7 = List.of(10,5,15);
+    List<Integer> n1 = List.of(17, -1, -1);
+    List<Integer> n2 = List.of(15, 13, 17);
+    List<Integer> n3 = List.of(7, -1, -1);
+    List<Integer> n4 = List.of(13, -1, -1);
+    List<Integer> n5 = List.of(5, 3, 7);
+    List<Integer> n6 = List.of(3, -1, -1);
+    List<Integer> n7 = List.of(10, 5, 15);
     List<List<Integer>> input = new ArrayList<>();
     input.add(n1);
     input.add(n2);
@@ -50,20 +46,17 @@ public class BSTCompleteBinaryTree {
     System.out.println(findRoot(input));
   }
 
-
   public static int findRoot(List<List<Integer>> nodes) {
     Map<Integer, BSTNode> nodeMap = new HashMap<>();
     Map<Integer, Integer> parentMap = new HashMap<>();
 
-    for(List<Integer> node : nodes) {
+    for (List<Integer> node : nodes) {
       nodeMap.put(node.get(0), new BSTNode(node.get(0)));
-      if(node.get(1) != -1)
-        parentMap.put(node.get(1), node.get(0));
-      if(node.get(2) != -1)
-        parentMap.put(node.get(2), node.get(0));
+      if (node.get(1) != -1) parentMap.put(node.get(1), node.get(0));
+      if (node.get(2) != -1) parentMap.put(node.get(2), node.get(0));
     }
 
-    for(List<Integer> node: nodes) {
+    for (List<Integer> node : nodes) {
       BSTNode n = nodeMap.get(node.get(0));
       n.left = nodeMap.get(node.get(1));
       n.right = nodeMap.get(node.get(2));
@@ -72,40 +65,62 @@ public class BSTCompleteBinaryTree {
     System.out.println(nodeMap);
     System.out.println(parentMap);
 
-    if(parentMap.size() >= nodeMap.size())
-      return -1;
+    if (parentMap.size() >= nodeMap.size()) return -1;
 
     Set<Integer> heads = new HashSet<>();
-    int result = -1;
-    for(Integer n: nodeMap.keySet()) {
-      if(heads.contains(n))
-        heads.remove(n);
+    List<Integer> list = new ArrayList<>();
+    HashMap<Integer, Integer> map = new HashMap<>();
+//    int result = -1;
+//    for (Integer n : nodeMap.keySet()) {
+//
+//      if (parentMap.containsKey(n)) {
+//        int head = parentMap.get(n);
+//
+//        heads.add(head);
+//        Integer orDefault = map.getOrDefault(head, 0);
+//        if (orDefault == 1) {
+//          heads.remove(head);
+//        }
+//        map.put(head, orDefault + 1);
+//
+//        result = head;
+//      }
+//    }
+    Set<Integer> nodeValue = new HashSet<>(parentMap.keySet());
+    Set<Integer> headValue = new HashSet<>(parentMap.values());
 
-      if(parentMap.containsKey(n)){
-        int head = parentMap.get(n);
-        heads.add(head);
-        result = head;
+    headValue.removeAll(nodeValue);
+    System.out.println(headValue);
+
+    Integer result = headValue.iterator().next();
+    List<Integer> rootNodes = new ArrayList<>(heads);
+    int root = -1;
+    for (Integer integer : rootNodes) {
+      Set<Integer> nodeSet = nodeMap.keySet();
+      if (isBST(nodeMap.get(result), nodeSet) && nodeSet.isEmpty()) {
+        root = integer;
       }
     }
-    System.out.println(heads);
 
-    Set<Integer> nodeSet = nodeMap.keySet();
-    if(!isBST(nodeMap.get(result), nodeSet) || nodeSet.size() > 0)
-      return -1;
-    return result;
+    return root;
   }
 
   public static boolean isBST(BSTNode head, Set<Integer> nodeSet) {
-    if(head == null)
-      return true;
-    nodeSet.remove(head.value);
-    if(head.left != null && head.right != null) {
-      return (head.value > head.left.value && (isBST(head.left, nodeSet)) && (head.value < head.right.value && isBST(head.right, nodeSet)));
+    if (head == null) return true;
+
+    if (!nodeSet.remove(head.value)) {
+      return false;
     }
-    if(head.left != null) {
+    nodeSet.remove(head.value);
+    if (head.left != null && head.right != null) {
+      return (head.value > head.left.value
+          && (isBST(head.left, nodeSet))
+          && (head.value < head.right.value && isBST(head.right, nodeSet)));
+    }
+    if (head.left != null) {
       return (head.value > head.left.value && isBST(head.left, nodeSet));
     }
-    if(head.right != null) {
+    if (head.right != null) {
       return (head.value < head.right.value && isBST(head.right, nodeSet));
     }
     return true;

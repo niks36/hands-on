@@ -33,7 +33,7 @@ public class WordSearch2 {
       return;
     }
 
-    Character character = board[i][j];
+    char character = board[i][j];
     TrieNode child = root.children[character - 'a'];
     if (child == null) {
       return;

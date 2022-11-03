@@ -25,6 +25,7 @@ public class PourWater {
       while(cur > K && heights[cur] >= heights[cur - 1]) {
         cur--;
       }
+      System.out.println(cur);
       heights[cur]++;
 
     }

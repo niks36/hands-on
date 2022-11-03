@@ -98,20 +98,20 @@ public class CheapestKStops {
     prices[src] = 0;
     for (int i = 0; i <= k; i++) {
       int[] temp = Arrays.copyOf(prices, n);
-      for(int j = 0; j< temp.length; j++){
-        System.out.print(temp[j] + " ");
-      }
-      System.out.println();
+//      for(int j = 0; j< temp.length; j++){
+//        System.out.print(temp[j] + " ");
+//      }
+//      System.out.println();
       for (int[] flight : flights) {
         int cur = flight[0], next = flight[1], price = flight[2];
         if (prices[cur] == Integer.MAX_VALUE) continue;
         temp[next] = Math.min(temp[next], prices[cur] + price);
       }
       prices = temp;
-      for(int j = 0; j< temp.length; j++){
-        System.out.print(temp[j] + " ");
-      }
-      System.out.println();
+//      for(int j = 0; j< temp.length; j++){
+//        System.out.print(temp[j] + " ");
+//      }
+//      System.out.println();
     }
     return prices[dst] == Integer.MAX_VALUE ? -1 : prices[dst];
   }

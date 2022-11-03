@@ -42,6 +42,7 @@ public class Vector2D {
   }
 
   public int next() {
+
    // System.out.println("RowIndex " + rowIndex);
     if (rowIndex >= arr.length) return -1;
 

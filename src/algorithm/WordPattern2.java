@@ -18,42 +18,84 @@ public class WordPattern2 {
 
   private boolean isMatch(
       String pattern,
-      int i,
-      String s,
-      int j,
-      HashMap<Character, String> chMap,
-      HashSet<String> set) {
-    if (i == pattern.length() && j == s.length()) {
+      int patternIndex,
+      String string,
+      int stringIndex,
+      HashMap<Character, String> chPatternMap,
+      HashSet<String> processedString) {
+    if (patternIndex == pattern.length() && stringIndex == string.length()) {
       return true;
     }
 
-    if (i == pattern.length() || j == s.length()) {
+    if (patternIndex == pattern.length() || stringIndex == string.length()) {
       return false;
     }
-    final char c = pattern.charAt(i);
+    final char c = pattern.charAt(patternIndex);
 
-    String patternString = chMap.get(c);
+    String patternString = chPatternMap.get(c);
     if (patternString != null) {
-      if (!s.startsWith(patternString, j)) {
+      if (!string.startsWith(patternString, stringIndex)) {
         return false;
       }
-      return isMatch(pattern, i + 1, s, j + patternString.length(), chMap, set);
+      return isMatch(pattern, patternIndex + 1, string, stringIndex + patternString.length(), chPatternMap, processedString);
     }
 
-    for(int k = j ; k < s.length(); k++){
-      String t = s.substring(j,k + 1);
+    for(int k = stringIndex ; k < string.length(); k++){
+      String t = string.substring(stringIndex,k + 1);
 
-      if(set.contains(t)) continue;
+      if(processedString.contains(t)) continue;
 
-      chMap.put(c, t);
-      set.add(t);
+      chPatternMap.put(c, t);
+      processedString.add(t);
 
-      if(isMatch(pattern, i+1, s, k +1, chMap,set)){
+      if(isMatch(pattern, patternIndex+1, string, k +1, chPatternMap,processedString)){
         return true;
       }
 
-      chMap.remove(c);
-      set.remove(t);
+      chPatternMap.remove(c);
+      processedString.remove(t);
+    }
+    return false;
+  }
+
+  private boolean isMatch1(
+      String pattern,
+      int patternIndex,
+      String string,
+      int stringIndex,
+      HashMap<Character, String> chPatternMap,
+      HashSet<String> processedString) {
+    if( patternIndex == pattern.length() && stringIndex == string.length()){
+      return true;
+    }
+
+    if( patternIndex == pattern.length() || stringIndex == string.length()){
+      return false;
+    }
+
+    char ch = pattern.charAt(patternIndex);
+
+    if(chPatternMap.containsKey(ch)){
+      String patternString = chPatternMap.get(ch);
+      if(!string.startsWith(patternString, stringIndex)){
+        return false;
+      }
+      return isMatch(pattern, patternIndex +1 , string, stringIndex + patternString.length() + 1 , chPatternMap ,processedString);
+    }
+
+    for(int i = 0 ; i< string.length(); i++){
+      String subString = string.substring(stringIndex, i + 1);
+      if(processedString.contains(subString)) continue;;
+
+      chPatternMap.put(ch, subString);
+      processedString.add(string);
+
+      if(isMatch(pattern, patternIndex + 1, string, i + 1, chPatternMap ,processedString)){
+        return true;
+      }
+
+      chPatternMap.remove(ch);
+      processedString.remove(string);
     }
     return false;
   }
