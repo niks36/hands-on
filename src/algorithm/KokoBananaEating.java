@@ -11,7 +11,7 @@ public class KokoBananaEating {
     System.out.println(i);
   }
 
-  public int minEatingSpeed(int[] piles, int H) {
+   public int minEatingSpeed(int[] piles, int H) {
     int left = 1;
     int right = Arrays.stream(piles).max().getAsInt();
 
