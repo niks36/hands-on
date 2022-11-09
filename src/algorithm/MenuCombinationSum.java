@@ -42,4 +42,17 @@ public class MenuCombinationSum {
       }
     }
   }
+
+  public void combinationSum1(
+      int[] candidates, int index, int target, List<Double> list, List<List<Double>> result) {
+    if (target == 0) {
+      result.add(list);
+    } else if (target > 0) {
+      for (int i = index; i < candidates.length; i++) {
+        ArrayList<Double> newList = new ArrayList<>(list);
+        newList.add((double) candidates[i] / 100);
+        combinationSum1(candidates, i, target - candidates[i], newList, result);
+      }
+    }
+  }
 }

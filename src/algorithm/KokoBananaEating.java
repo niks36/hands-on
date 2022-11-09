@@ -1,7 +1,5 @@
 package algorithm;
 
-import java.util.Arrays;
-
 public class KokoBananaEating {
 
   public static void main(String[] args) {
@@ -11,27 +9,25 @@ public class KokoBananaEating {
     System.out.println(i);
   }
 
-   public int minEatingSpeed(int[] piles, int H) {
-    int left = 1;
-    int right = Arrays.stream(piles).max().getAsInt();
-
-    while (left <= right) {
-      int mid = left + (right - left) / 2;
-      if (canEatBanana(mid, piles) <= H) {
-        right = mid - 1;
-      } else {
-        left = left + 1;
-      }
+  public boolean isPossible(int[] piles, int h, int k) {
+    int time = 0;
+    for (int p : piles) {
+      time += (p - 1) / k + 1;
+      if (time > h) break;
     }
-    return left;
+    return time <= h;
   }
 
-  private int canEatBanana(int mid, int[] piles) {
-    int totalHours = 0;
-    for (int pile : piles) {
-      totalHours += pile / mid;
-      if (pile % mid != 0) totalHours++;
+  public int minEatingSpeed(int[] piles, int h) {
+    int low = 1, high = 1_000_000_000;
+    while (low < high) {
+      int mid = low + (high - low) / 2;
+      if (isPossible(piles, h, mid)) {
+        high = mid;
+      } else {
+        low = mid + 1;
+      }
     }
-    return totalHours;
+    return low;
   }
 }

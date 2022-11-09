@@ -7,6 +7,14 @@ public class WordSearch2 {
 
   public static void main(String[] args) {
     //
+    WordSearch2 wordSearch2 = new WordSearch2();
+    List<String> words = wordSearch2.findWords(new char[][]{
+        {'o', 'a', 'a', 'n'},
+        {'e', 't', 'a', 'e'},
+        {'i', 'h', 'k', 'r'},
+        {'i', 'f', 'l', 'v'}
+    }, new String[]{"eat", "oath", "aak", "ner", "oei", "thflv"});
+    System.out.println(words);
   }
 
   private TrieNode root = new TrieNode();

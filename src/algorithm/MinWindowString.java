@@ -11,6 +11,7 @@ public class MinWindowString {
     //
     MinWindowString minWindowString = new MinWindowString();
     System.out.println(minWindowString.minWindow1("bbaa", "aba"));
+    System.out.println(minWindowString.minWindow1("ADOBECODEBANC", "ABC"));
   }
 
   public String minWindow(String s, String t) {

@@ -2,12 +2,18 @@ package algorithm;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 public class LetterCombinations {
 
   public static void main(String[] args) {
     //
+    LetterCombinations letterCombinations = new LetterCombinations();
+    List<String> strings = letterCombinations.letterCombinations("567");
+
+    System.out.println(strings);
+    System.out.println(strings.size());
   }
 
   public List<String> letterCombinations(String digits) {
@@ -24,21 +30,22 @@ public class LetterCombinations {
     digitMap.put(8, List.of('t', 'u', 'v'));
     digitMap.put(9, List.of('w', 'x', 'y', 'z'));
 
-    for (Character c : digits.toCharArray()) {
-      List<Character> characters = digitMap.get(Integer.parseInt(c.toString()));
-      List<String> midResult = new ArrayList<>();
-      if (results.isEmpty()) {
-        List<String> collect = characters.stream().map(Object::toString).toList();
-        midResult.addAll(collect);
-      } else {
-        for (String result : results) {
-          for (int j = 0; j < characters.size(); j++) {
-            midResult.add(result + "" + characters.get(j));
-          }
+    Integer firstDigit = Integer.parseInt(String.valueOf(digits.charAt(0)));
+
+    LinkedList<String> queue = new LinkedList<>();
+    for (Character ch : digitMap.get(firstDigit)) {
+      queue.offer(ch + "");
+    }
+
+    for (int i = 1; i < digits.length(); i++) {
+      int size = queue.size();
+      for (int j = 0; j < size; j++) {
+        String poll = queue.poll();
+        for (Character ch : digitMap.get(Integer.parseInt(String.valueOf(digits.charAt(i))))) {
+          queue.offer(poll + ch);
         }
       }
-      results = midResult;
     }
-    return results;
+    return new ArrayList<>(queue);
   }
 }

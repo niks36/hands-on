@@ -26,6 +26,7 @@ public class LetterCasePermutations {
 
       for(int j = 0; j < size; j++){
         String str = queue.poll();
+        assert str != null;
         char[] ch = str.toCharArray();
 
         ch[i] = Character.toUpperCase(ch[i]);

@@ -15,7 +15,7 @@ public class SortIntegerByPowerValue {
   public int getKth(int lo, int hi, int k) {
     Comparator<int[]> comparator = (a,b) -> (a[0] == b[0]) ? (b[1] - a[1]) : (b[0] - a[0]);
     PriorityQueue<int[]> queue = new PriorityQueue<>(comparator);
-    PriorityQueue<Item> maxHeap = new PriorityQueue<Item>((a, b) -> (a.power == b.power) ? (a.num - b.num) : (a.power - b.power));
+    PriorityQueue<Item> maxHeap = new PriorityQueue<Item>(Comparator.comparingInt(Item::getPower).thenComparing(Item::getNum));
     //   HashMap<Integer,Integer> valueMap = new HashMap<>();
     for(int i = lo; i<= hi; i++){
       int value = getSteps(i);
@@ -24,13 +24,6 @@ public class SortIntegerByPowerValue {
         queue.remove();
       }
     }
-
-  //  System.out.println(queue);
-//    for(int i = 1; i < k ; i++){
-//      queue.poll();
-//    }
-//    System.out.println(queue);
-//    return queue.poll().get(1);
     return queue.remove()[1];
   }
 
@@ -55,6 +48,14 @@ public class SortIntegerByPowerValue {
     public Item (int num, int power){
       this.num = num;
       this.power = power;
+    }
+
+    public int getNum() {
+      return num;
+    }
+
+    public int getPower() {
+      return power;
     }
 
     @Override
