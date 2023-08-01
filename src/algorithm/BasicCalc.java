@@ -8,35 +8,38 @@ public class BasicCalc {
     int len;
     if(s==null || (len = s.length())==0) return 0;
     Stack<Integer> stack = new Stack<>();
-    int num = 0;
-    char sign = '+';
+    int result = 0;
+    int number = 0;
+    int sign = 1;
+
     for(int i=0;i<len;i++){
-      if(Character.isDigit(s.charAt(i))){
-        num = num*10+s.charAt(i)-'0';
+      char ch = s.charAt(i);
+      if(Character.isDigit(ch)){
+        number = Integer.parseInt(ch + "");
+      }else if(ch == '+'){
+        result += (number * sign);
+        number = 0;
+        sign = 1;
+      }else if(ch == '-'){
+        result += (number * sign);
+        number = 0;
+        sign = -1;
+      }else if(ch == '('){
+        stack.push(result);
+        stack.push(sign);
+        sign = 1;
+        result = 0;
+      }else if(ch == ')'){
+        result += sign * number;
+        number = 0;
+        result *= stack.pop();
+        result += stack.pop();
       }
-      if((!Character.isDigit(s.charAt(i)) &&' '!=s.charAt(i)) || i==len-1){
-        if(sign=='-'){
-          stack.push(-num);
-        }
-        if(sign=='+'){
-          stack.push(num);
-        }
-        if(sign=='*'){
-          stack.push(stack.pop()*num);
-        }
-        if(sign=='/'){
-          stack.push(stack.pop()/num);
-        }
-        sign = s.charAt(i);
-        num = 0;
-      }
+
     }
 
-    int re = 0;
-    for(int i:stack){
-      re += i;
-    }
-    return re;
+    if(number != 0) result += sign * number;
+    return result;
   }
 
 }
