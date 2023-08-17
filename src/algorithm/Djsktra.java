@@ -12,9 +12,6 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
 public class Djsktra {
 
@@ -26,6 +23,7 @@ public class Djsktra {
     source.setDistance(0);
     Set<Node<String>> settledNodes = new HashSet<>();
     Queue<Node<String>> unsettledNodes = new PriorityQueue<>(Collections.singleton(source));
+
     while (!unsettledNodes.isEmpty()) {
       Node<String> currentNode = unsettledNodes.poll();
       currentNode.getAdjacentNodes()
@@ -62,9 +60,6 @@ public class Djsktra {
 
 
 
-  @Getter
-  @Setter
-  @RequiredArgsConstructor
   class Node<String> implements Comparable<Node<String>> {
 
     private final String name;
@@ -81,5 +76,41 @@ public class Djsktra {
       return Integer.compare(this.distance, node.getDistance());
     }
 
+    public String getName() {
+      return name;
+    }
+
+    public Integer getDistance() {
+      return distance;
+    }
+
+    public void setDistance(Integer distance) {
+      this.distance = distance;
+    }
+
+    public List<Node<String>> getShortestPath() {
+      return shortestPath;
+    }
+
+    public void setShortestPath(List<Node<String>> shortestPath) {
+      this.shortestPath = shortestPath;
+    }
+
+    public Map<Node<String>, Integer> getAdjacentNodes() {
+      return adjacentNodes;
+    }
+
+    public void setAdjacentNodes(
+        Map<Node<String>, Integer> adjacentNodes) {
+      this.adjacentNodes = adjacentNodes;
+    }
+
+    public Node(String name, Integer distance, List<Node<String>> shortestPath,
+        Map<Node<String>, Integer> adjacentNodes) {
+      this.name = name;
+      this.distance = distance;
+      this.shortestPath = shortestPath;
+      this.adjacentNodes = adjacentNodes;
+    }
   }
 }

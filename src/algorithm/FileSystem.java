@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.junit.platform.commons.util.StringUtils;
 
 public class FileSystem {
 
@@ -30,14 +29,14 @@ public class FileSystem {
   }
 
   public List<String> ls(String path) {
-    if (StringUtils.isBlank(path)) return Collections.emptyList();
+    if (Utils.isBlank(path)) return Collections.emptyList();
 
     List<String> strings = new ArrayList<>();
     File file = root;
     if (!path.equals("/")) {
       String[] split = path.split("/");
       for (String subPath : split) {
-        if(StringUtils.isBlank(subPath)) continue;
+        if(Utils.isBlank(subPath)) continue;
         file = file.child.get(subPath);
         if (!file.isDir) {
           strings.add(subPath);
@@ -55,7 +54,7 @@ public class FileSystem {
     if (!path.equals("/")) {
       String[] split = path.split("/");
       for (String subPath : split) {
-        if(StringUtils.isBlank(subPath)) continue;
+        if(Utils.isBlank(subPath)) continue;
         if (!file.child.containsKey(subPath)) {
           file.child.put(subPath, new File(true));
         }
